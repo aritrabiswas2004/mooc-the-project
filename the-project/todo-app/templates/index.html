@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>The Project - DwK</title>
+  </head>
+  <body>
+    <h1>The Project App</h1>
+
+    <img src="{{url_for('static', filename='image.jpg')}}" alt="The Image" height="50%"/>
+    
+    <form method="post" action="/todos">
+      <br><br>
+      <input type="text" name="todo-input" id="todo-input" maxlength="140" placeholder="max. 140 chars">
+
+      <button type="submit">Create TODO</button>
+      <br><br>
+    </form>
+
+    <ul>
+    {% for item in todos %}
+    <div>
+        <li> {{item}} </li>
+    </div>
+    {% endfor %}
+    </ul>
+  </body>
+</html>

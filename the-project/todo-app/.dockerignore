@@ -1,0 +1,6 @@
+/venv/
+.gitignore
+/static/
+/volumes/
+/manifests/
+
