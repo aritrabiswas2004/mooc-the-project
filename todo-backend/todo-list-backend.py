@@ -56,6 +56,10 @@ def get_todos():
 
     return get_todos_list_from_db()
 
+@app.route('/')
+def health_check():
+    return f"Server Healthy!", {'Content-Type': 'text/plain'}
+
 if __name__ == '__main__':
     app.run("0.0.0.0", port=int(os.environ.get('BACKEND-PORT', 4040))) # 4040 as backup for my sanity
 

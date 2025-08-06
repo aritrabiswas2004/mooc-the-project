@@ -41,6 +41,7 @@ spec:
                   key: random_pic_url
         - name: todo-backend
           image: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend:main-v0.1 # aritrabb/todo-backend
+          command: ['sh', '-c', 'if [ -f /workdir/test.txt ]; then sleep 99999; fi']
           env:
             - name: BACKEND-PORT
               valueFrom:
