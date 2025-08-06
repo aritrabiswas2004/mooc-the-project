@@ -13,9 +13,9 @@ spec:
       labels:
         app: todo-list
   strategy:
-      type: RollingUpdate
-      rollingUpdate:
-        maxUnavailable: 1
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
     spec:
       volumes:
         - name: image-elapsed
