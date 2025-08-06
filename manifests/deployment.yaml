@@ -5,6 +5,8 @@ metadata:
   namespace: project
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: todo-list
@@ -12,10 +14,6 @@ spec:
     metadata:
       labels:
         app: todo-list
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
     spec:
       volumes:
         - name: image-elapsed
@@ -45,7 +43,6 @@ spec:
                   key: random_pic_url
         - name: todo-backend
           image: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend:main-v0.1 # aritrabb/todo-backend
-          # command: ['sh', '-c', 'sleep 999999']
           env:
             - name: BACKEND-PORT
               valueFrom:
