@@ -2,19 +2,35 @@ from flask import Flask, request
 import os
 import psycopg2
 import logging
+import time
 
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-conn = psycopg2.connect(
-    host=os.environ.get('DB-SVC-NAME'),
-    port=int(os.environ.get('DB-PORT')),
-    dbname=os.environ.get('DB-NAME'), 
-    user=os.environ.get('DB-USER', "postgres"), # default user and password is username: postgres password: postgres
-    password=os.environ.get('DB-PASSWORD', "postgres")
-)
+def get_db_connection():
+    conn = None
+    for i in range(10):
+        try:
+            conn = psycopg2.connect(
+                host=os.environ.get('DB-SVC-NAME'),
+                port=int(os.environ.get('DB-PORT')),
+                dbname=os.environ.get('DB-NAME'),
+                user=os.environ.get('DB-USER', "postgres"),
+                password=os.environ.get('DB-PASSWORD', "postgres")
+            )
+            break
+        except psycopg2.OperationalError as e:
+            logger.error(f"Attempt {i+1} to connect to the database failed: {e}")
+            time.sleep(5)  # Wait for 5 seconds before retrying
+    return conn
+
+conn = get_db_connection()
+
+if conn is None:
+    logger.error("Failed to connect to the database after multiple retries. Exiting.")
+    exit(1)
 
 cur = conn.cursor()
 
