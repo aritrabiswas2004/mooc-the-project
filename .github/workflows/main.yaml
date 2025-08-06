@@ -1,0 +1,97 @@
+name: Release application
+
+on:
+  push:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  REGISTRY: europe-north1-docker.pkg.dev
+  REPOSITORY: my-repository
+  IMAGE_DIR1: todo-app
+  IMAGE_DIR2: todo-backend
+  SERVICE_DIR1: todo-app-service
+  SERVICE_DIR2: todo-backend-service
+  BRANCH: ${{ github.ref_name }}
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+    environment: project-env-1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check multiline secret
+        run: echo "${{ secrets.GKE_SA_KEY }}" | head -n 3 || echo "GKE_SA_KEY not available"
+
+      - name: Confirm if GKE_SA_KEY secret is available
+        run: |
+          if [ -z "${{ secrets.GKE_SA_KEY }}" ]; then
+            echo "GKE_SA_KEY is NOT set or accessible"
+            exit 1
+          else
+            echo "GKE_SA_KEY is injected"
+          fi
+
+      - name: Confirm if GKE_PROJECT secret is available
+        run: |
+          if [ -z "${{ secrets.GKE_PROJECT }}" ]; then
+            echo "GKE_PROJECT is NOT set or accessible"
+            exit 1
+          else
+            echo "GKE_PROJECT is injected"
+          fi
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GKE_SA_KEY }}
+
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 'Use gcloud CLI'
+        run: gcloud info
+
+      - run: gcloud --quiet auth configure-docker "$REGISTRY"
+
+      - name: 'Get GKE credentials'
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: '${{ env.GKE_CLUSTER }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          location: '${{ env.GKE_ZONE }}'
+
+      - name: 'Form the image name for todo-app'
+        run: echo "IMAGE_TAG_DIR1=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_DIR1:$BRANCH-v0.1" >> $GITHUB_ENV
+
+      - name: Build todo-app image
+        run: docker build --tag $IMAGE_TAG_DIR1 todo-app/
+
+      - name: Publish todo-app image
+        run: docker push $IMAGE_TAG_DIR1
+
+      - name: 'Form the image name for todo-backend'
+        run: echo "IMAGE_TAG_DIR2=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_DIR2:$BRANCH-v0.1" >> $GITHUB_ENV
+
+      - name: Build todo-backend image
+        run: docker build --tag $IMAGE_TAG_DIR2 todo-backend/
+
+      - name: Publish todo-backend image
+        run: docker push $IMAGE_TAG_DIR2
+
+      # Deploy step
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2.1.0
+
+      - name: Deploy
+        run: |-
+          kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
+          kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment $SERVICE_DIR1
+          kubectl rollout status deployment $SERVICE_DIR2
+          kubectl get services -o wide
