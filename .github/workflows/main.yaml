@@ -12,6 +12,7 @@ env:
   IMAGE_DIR1: todo-app
   IMAGE_DIR2: todo-backend
   SERVICE_DIR1: todo-list-app
+  STSET_PSQL: postgres-stset
   BRANCH: ${{ github.ref_name }}
 
 jobs:
@@ -65,7 +66,7 @@ jobs:
           location: '${{ env.GKE_ZONE }}'
 
       - name: 'Form the image name for todo-app'
-        run: echo "IMAGE_TAG_DIR1=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_DIR1:$BRANCH-v0.1" >> $GITHUB_ENV
+        run: echo "IMAGE_TAG_DIR1=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_DIR1:$BRANCH-v0.2" >> $GITHUB_ENV
 
       - name: Build todo-app image
         run: docker build --tag $IMAGE_TAG_DIR1 todo-app/
@@ -74,7 +75,7 @@ jobs:
         run: docker push $IMAGE_TAG_DIR1
 
       - name: 'Form the image name for todo-backend'
-        run: echo "IMAGE_TAG_DIR2=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_DIR2:$BRANCH-v0.1" >> $GITHUB_ENV
+        run: echo "IMAGE_TAG_DIR2=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_DIR2:$BRANCH-v0.2" >> $GITHUB_ENV
 
       - name: Build todo-backend image
         run: docker build --tag $IMAGE_TAG_DIR2 todo-backend/
@@ -106,5 +107,6 @@ jobs:
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
           kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE_DIR1
+          kubectl rollout status statefulset $STSET_PSQL -n project
+          kubectl rollout status deployment $SERVICE_DIR1 -n project
           kubectl get services -o wide -n project
