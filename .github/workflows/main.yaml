@@ -12,7 +12,6 @@ env:
   IMAGE_DIR1: todo-app
   IMAGE_DIR2: todo-backend
   SERVICE_DIR1: todo-app-service
-  SERVICE_DIR2: todo-backend-service
   BRANCH: ${{ github.ref_name }}
 
 jobs:
@@ -108,5 +107,4 @@ jobs:
           kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment $SERVICE_DIR1
-          kubectl rollout status deployment $SERVICE_DIR2
           kubectl get services -o wide
