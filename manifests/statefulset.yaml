@@ -33,7 +33,7 @@ spec:
     - metadata:
         name: postgres-data-storage
       spec:
-        accessModes: ["ReadWriteOnce","ReadWriteMany"]
+        accessModes: ["ReadWriteOnce"]
         storageClassName: standard-rwo
         resources:
           requests:

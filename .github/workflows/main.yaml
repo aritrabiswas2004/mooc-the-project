@@ -102,6 +102,9 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
+      - name: Check Kust Build
+        run: kustomize build .
+
       - name: Deploy
         run: |-
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
