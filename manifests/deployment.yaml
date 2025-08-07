@@ -21,7 +21,7 @@ spec:
             claimName: todo-list-claim
       containers:
         - name: todo-list-app
-          image: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app:main-v0.1 # aritrabb/todo-list
+          image: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app:main-v0.2 # aritrabb/todo-list
           volumeMounts:
             - name: image-elapsed
               mountPath: /app/static
@@ -42,7 +42,7 @@ spec:
                   name: todo-list-configmap
                   key: random_pic_url
         - name: todo-backend
-          image: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend:main-v0.1 # aritrabb/todo-backend
+          image: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend:main-v0.2 # aritrabb/todo-backend
           env:
             - name: BACKEND-PORT
               valueFrom:
