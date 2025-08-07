@@ -18,7 +18,7 @@ def get_db_connection():
                 port=int(os.environ.get('DB-PORT')),
                 dbname=os.environ.get('DB-NAME'),
                 user=os.environ.get('DB-USER', "postgres"),
-                password=os.environ.get('DB-PASSWORD', 'postgres')
+                password=str(os.environ.get('DB-PASSWORD', 'postgres'))
             )
             logger.error(f"{os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
             break
