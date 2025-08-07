@@ -23,8 +23,8 @@ def get_db_connection():
             logger.error(f"{os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
             break
         except psycopg2.OperationalError as e:
-            logger.error(f"Attempt {i+1} to connect to the database failed: {e} with password: {os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
-            logger.error(f"{os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
+            logger.error(f"Attempt {i+1} to connect to the database failed: {e} with password: {repr(os.environ.get('DB-PASSWORD', 'failed to get db-passwd'))}")
+            logger.error(f"-> {os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
             time.sleep(5)  # Wait for 5 seconds before retrying
     return conn
 
