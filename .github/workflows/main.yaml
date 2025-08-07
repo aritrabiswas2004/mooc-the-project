@@ -106,7 +106,7 @@ jobs:
         run: |-
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
           kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
-          kustomize build . | kubectl apply -f -
+          kubectl apply -k .
           kubectl rollout status statefulset $STSET_PSQL -n project
           kubectl rollout status deployment $SERVICE_DIR1 -n project
           kubectl get services -o wide -n project
