@@ -2,3 +2,4 @@
 *.sh
 secret.yaml
 *.txt
+old.secret.enc.yaml
