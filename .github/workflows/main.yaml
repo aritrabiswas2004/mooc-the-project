@@ -97,13 +97,13 @@ jobs:
         run: sops --decrypt manifests/secret.enc.yaml > manifests/secret.yaml
         env:
           SOPS_AGE_KEY_FILE: .sops.agekey
+      
+      - name: Check what in the actual fuck the secret is
+        run: cat manifests/secret.yaml
 
       # Deploy step
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
-
-      - name: Check Kust Build
-        run: kustomize build .
 
       - name: Deploy
         run: |-
