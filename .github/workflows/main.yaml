@@ -97,9 +97,6 @@ jobs:
         run: sops --decrypt manifests/secret.enc.yaml > manifests/secret.yaml
         env:
           SOPS_AGE_KEY_FILE: .sops.agekey
-      
-      - name: Check what in the actual fuck the secret is
-        run: cat manifests/secret.yaml
 
       # Deploy step
       - name: Set up Kustomize
