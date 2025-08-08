@@ -1,29 +1,26 @@
 # TODO List Application
 
-Divided into `todo-app` for frontend and `todo-backend` for backend.
+The Project (Todo List App) is done in this repo (and not the [main](https://github.com/aritrabiswas2004/devops-with-kubernetes) one) for the exercises below
 
-## Using Kustomize
+> The below list is extendable as more exercises are completed
 
-Deploying application is best and safest with Kustomize.
+- 3.6
 
-This can be done by `kubectl apply -k .` (assuming you are in the root directory of the project)
+## Deploying the Application
 
-## Other Ways
+This application automatically deploys to the GKE cluster from the deployment pipeline in `.github/workflows/main.yaml` (see GitHub actions)
 
-### Deployment
+The images are stored in a Docker repository on Artifact Registry on GCP
 
-The following can be created with `kubectl apply -f manifests/`
+### Using Kustomize
 
-- Deployment (both containers)
-- Service (x2)
-- Ingress
-- ConfigMap
-- StatefulSet
-- Secret (encrypted)
+You can deploy it using the `kustomization.yaml` file with the below commands
 
-### Volumes
+```shell
+kustomize edit set image PROJECT/IMAGE_DIR1=$PATH_TO_IMAGE1 # todo-app
+kustomize edit set image PROJECT/IMAGE_DIR2=$PATH_TO_IMAGE2 # todo-backend
+kustomize build . | kubectl apply -f -
+```
 
-Persistent Volume and Volume Claim (if the exercise requires to create) can be created with `kubectl apply -f volumes/`
 
-> On GKE, persistent disk is created automatically so only the `persistentvolumeclaim.yaml` file is required
-> to be applied. 
+
