@@ -5,12 +5,16 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 > The below list is extended when more exercises are completed
 
 - 3.6
+- 3.7
 
 ## Deploying the Application
 
 This application automatically deploys to the GKE cluster from the deployment pipeline in `.github/workflows/main.yaml` (see GitHub actions)
 
 The images are stored in a Docker repository on Artifact Registry on GCP
+
+> [!NOTE]
+> For exercise `3.7` the tag name of `3.7` causes the pipeline to fail since it is not a valid namespace name. For all other branch names, it works! 
 
 ### Using Kustomize
 
