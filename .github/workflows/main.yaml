@@ -102,11 +102,22 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
+      - name: Set namespace as the same name as 
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "NAMESPACE=project" >> $GITHUB_ENV
+          else
+            echo "NAMESPACE=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          fi
+
       - name: Deploy
         run: |-
+          kubectl create namespace $NAMESPACE || true
+          kubectl config set-context --current --namespace=$NAMESPACE
+          kustomize edit set namespace $NAMESPACE
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
           kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
           kustomize build . | kubectl apply -f -
-          kubectl rollout status statefulset $STSET_PSQL -n project
-          kubectl rollout status deployment $SERVICE_DIR1 -n project
-          kubectl get services -o wide -n project
+          kubectl rollout status statefulset $STSET_PSQL -n $NAMESPACE
+          kubectl rollout status deployment $SERVICE_DIR1 -n $NAMESPACE
+          kubectl get services -o wide -n $NAMESPACE

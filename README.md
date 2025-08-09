@@ -2,7 +2,7 @@
 
 The Project (Todo List App) is done in this repo (and not the [main](https://github.com/aritrabiswas2004/devops-with-kubernetes) one) for the exercises below
 
-> The below list is extendable as more exercises are completed
+> The below list is extended when more exercises are completed
 
 - 3.6
 
