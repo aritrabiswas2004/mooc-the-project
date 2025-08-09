@@ -12,6 +12,7 @@ env:
 jobs:
   delete-namespace:
     runs-on: ubuntu-latest
+    environment: project-env-1
     if: github.event.ref_type == 'branch'
 
     steps:
