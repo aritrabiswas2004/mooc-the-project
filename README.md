@@ -6,6 +6,7 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 
 - 3.6
 - 3.7
+- 3.8
 
 ## Deploying the Application
 
@@ -14,7 +15,7 @@ This application automatically deploys to the GKE cluster from the deployment pi
 The images are stored in a Docker repository on Artifact Registry on GCP
 
 > [!NOTE]
-> For exercise `3.7` the tag name of `3.7` causes the pipeline to fail since it is not a valid namespace name. 
+> For exercise `3.7` onwards the tag name of `3.X` (`X` is any number) causes the pipeline to fail since it is not a valid namespace name. 
 > For all other branch names that are also valid namespace names, it works! 
 
 ### Using Kustomize
