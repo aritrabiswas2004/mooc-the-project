@@ -14,7 +14,8 @@ This application automatically deploys to the GKE cluster from the deployment pi
 The images are stored in a Docker repository on Artifact Registry on GCP
 
 > [!NOTE]
-> For exercise `3.7` the tag name of `3.7` causes the pipeline to fail since it is not a valid namespace name. For all other branch names, it works! 
+> For exercise `3.7` the tag name of `3.7` causes the pipeline to fail since it is not a valid namespace name. 
+> For all other branch names that are also valid namespace names, it works! 
 
 ### Using Kustomize
 
