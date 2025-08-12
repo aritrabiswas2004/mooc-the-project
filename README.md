@@ -8,6 +8,20 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 3.7
 - 3.8
 
+## Answer to Exercise `3.9`
+
+| Category                   | DBaaS                                                                                                                                                                                                                                                                                          | PVC (self-managed)                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Initialization & Setup** | Very easy with only a few clicks or API calls.                                                                                                                                                                                                                                                 | More complex. Setup complexity increases with more storage classes, PVC configs, DB containers etc.  (via helm or manifests)                                                                                                                                                                                                                                                                                                                   |
+| **Initialization Time**    | Few minutes to a few hours                                                                                                                                                                                                                                                                     | Hours to days depending on complexity                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Costs**                  | **Initial Costs:** No initial costs <br><br> **Running Costs:** Higher than PVC sue to added management costs <br><br> [\$0.0454 / 1 hour](https://cloud.google.com/sql/pricing?hl=en#tg0-t1) for the vCPU and [\$0.0077 / 1 gibibyte hour](https://cloud.google.com/sql/pricing?hl=en#tg0-t1) | **Initial Costs:** No initial cost to set up persistent volume <br><br> **Running Costs:** Costs correlate highly to k8s cluster costs and storage volumes costs. In GKE, the cluster and the Compute Engine Disks used for persistent storage add to the costs. <br><br> 	[$0.000054795 / 1 GiB per hour](https://cloud.google.com/compute/disks-image-pricing?hl=en#tg1-t0) is the rate for standard zonal persistent disk (europe-north1-b) |
+| **Maintenance**            | Almost completely managed by cloud provider with helpful tools for monitoring on dashboard.                                                                                                                                                                                                    | Almost entirely managed by the user including the updates, testing, downtimes and monitoring is done by Prometheus/Grafana.                                                                                                                                                                                                                                                                                                                    |
+| **Backup Methods**         | Backup is automated completely by the cloud provider.                                                                                                                                                                                                                                          | Backup needs to be manually managed by the user.                                                                                                                                                                                                                                                                                                                                                                                               |
+| **Ease of Use**            | Very easy and intuitive. One-click solutions to restore a new instance                                                                                                                                                                                                                         | Complex and usually need advanced users. Typically, professional expertise is required in managing code, configurations and maintaining DB infrastructure.                                                                                                                                                                                                                                                                                     |
+
+
+
+
 ## Deploying the Application
 
 This application automatically deploys to the GKE cluster from the deployment pipeline in `.github/workflows/main.yaml` (see GitHub actions)
@@ -17,16 +31,5 @@ The images are stored in a Docker repository on Artifact Registry on GCP
 > [!NOTE]
 > For exercise `3.7` onwards the tag name of `3.X` (`X` is any number) causes the pipeline to fail since it is not a valid namespace name. 
 > For all other branch names that are also valid namespace names, it works! 
-
-### Using Kustomize
-
-You can deploy it using the `kustomization.yaml` file with the below commands
-
-```shell
-kustomize edit set image PROJECT/IMAGE_DIR1=$PATH_TO_IMAGE1 # todo-app
-kustomize edit set image PROJECT/IMAGE_DIR2=$PATH_TO_IMAGE2 # todo-backend
-kustomize build . | kubectl apply -f -
-```
-
 
 
