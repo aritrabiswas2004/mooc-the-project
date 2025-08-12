@@ -7,6 +7,7 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 3.6
 - 3.7
 - 3.8
+- 3.9
 
 ## Answer to Exercise `3.9`
 
