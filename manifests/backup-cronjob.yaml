@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-backup-cj
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup-cron
+            image: ubuntu
+            imagePullPolicy: IfNotPresent
+            command: ["bash", "-c"]
+            args:
+              - |
+                apt-get update && apt-get install -y postgresql-client
+                export PGPASSWORD=postgres
+                pg_dump -h postgres-svc -U postgres -d todosdb > /tmp/backup.sql
+                cat /tmp/backup.sql
+          restartPolicy: Never
