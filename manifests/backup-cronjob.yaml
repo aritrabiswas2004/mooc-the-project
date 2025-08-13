@@ -10,13 +10,19 @@ spec:
         spec:
           containers:
           - name: backup-cron
-            image: ubuntu
+            image: postgres:17
             imagePullPolicy: IfNotPresent
+            env:
+              - name: PGPASSWORD
+                value: postgres
             command: ["bash", "-c"]
             args:
               - |
-                apt-get update && apt-get install -y postgresql-client
-                export PGPASSWORD=postgres
-                pg_dump -h postgres-svc -U postgres -d todosdb > /tmp/backup.sql
-                cat /tmp/backup.sql
+                apt-get update && apt-get install -y curl gnupg
+                echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" \
+                  | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+                curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+                  | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+                apt-get update && apt-get install -y google-cloud-sdk
+                gcloud --version
           restartPolicy: Never
