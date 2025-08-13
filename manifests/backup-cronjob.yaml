@@ -8,6 +8,7 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: pg-backup-ksa
           containers:
           - name: backup-cron
             image: postgres:17
@@ -24,5 +25,6 @@ spec:
                 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
                   | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
                 apt-get update && apt-get install -y google-cloud-sdk
-                gcloud --version
+                pg_dump -h postgres-svc -U postgres -d todosdb > backup.sql
+                gsutil cp backup.sql gs://aritrabb-project-bucket/
           restartPolicy: Never
