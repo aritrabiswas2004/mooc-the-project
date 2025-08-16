@@ -9,6 +9,7 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 3.8
 - 3.9
 - 3.10
+- 3.11
 
 ## Notes on exercise `3.10`
 
