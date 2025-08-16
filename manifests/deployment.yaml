@@ -20,9 +20,12 @@ spec:
         - name: todo-list-app
           image: PROJECT/IMAGE_DIR1 # europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app:main-v0.2
           resources:
+            requests:
+              cpu: "20m"
+              memory: "64Mi"
             limits:
-              cpu: "150m"
-              memory: "100Mi"
+              cpu: "200m"
+              memory: "256Mi"
           volumeMounts:
             - name: image-elapsed
               mountPath: /app/static
@@ -45,9 +48,12 @@ spec:
         - name: todo-backend
           image: PROJECT/IMAGE_DIR2 # europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend:main-v0.2 # aritrabb/todo-backend
           resources:
+            requests:
+              cpu: "20m"
+              memory: "64Mi"
             limits:
-              cpu: "150m"
-              memory: "100Mi"
+              cpu: "200m"
+              memory: "256Mi"
           env:
             - name: BACKEND-PORT
               valueFrom:
