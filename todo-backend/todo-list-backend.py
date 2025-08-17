@@ -3,10 +3,17 @@ import os
 import psycopg2
 import logging
 import time
+import sys
 
 app = Flask(__name__)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[
+        logging.StreamHandler(sys.stdout)
+    ],
+    format="%(levelname)s:%(name)s:%(message)s"
+)
 logger = logging.getLogger(__name__)
 
 def get_db_connection():
