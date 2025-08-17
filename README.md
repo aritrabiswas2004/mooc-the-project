@@ -10,6 +10,11 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 3.9
 - 3.10
 - 3.11
+- 3.12
+
+## Screenshots for exercise `3.12`
+
+![Screenshot of Google Logs Explorer showing logs of todo-backend](./logs.png)
 
 ## Notes on exercise `3.10`
 
