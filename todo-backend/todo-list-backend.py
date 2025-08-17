@@ -20,11 +20,9 @@ def get_db_connection():
                 user=os.environ.get('DB-USER', "postgres"),
                 password=str(os.environ.get('DB-PASSWORD', 'postgres'))
             )
-            logger.error(f"{os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
             break
         except psycopg2.OperationalError as e:
             logger.error(f"Attempt {i+1} to connect to the database failed: {e} with password: {repr(os.environ.get('DB-PASSWORD', 'failed to get db-passwd'))}")
-            logger.error(f"-> {os.environ.get('DB-PASSWORD', 'failed to get db-passwd')}")
             time.sleep(5)  # Wait for 5 seconds before retrying
     return conn
 
@@ -58,7 +56,7 @@ def get_todos_list_from_db():
     return [item[0] for item in cur.fetchall()]
 
 def append_todo_item_to_db(new_todo):
-    logger.info("Append request sent to backend")
+    logger.info(f"Append request sent to backend: {new_todo}")
     cur.execute("INSERT INTO todos(todo_item) VALUES (%s)", (new_todo,))
 
     conn.commit()
