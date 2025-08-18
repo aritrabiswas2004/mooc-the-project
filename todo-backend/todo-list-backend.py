@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def get_db_connection():
     conn = None
-    for i in range(10):
+    while True:
         try:
             conn = psycopg2.connect(
                 host=os.environ.get('DB-SVC-NAME'),
@@ -29,8 +29,8 @@ def get_db_connection():
             )
             break
         except psycopg2.OperationalError as e:
-            logger.error(f"Attempt {i+1} to connect to the database failed: {e} with password: {repr(os.environ.get('DB-PASSWORD', 'failed to get db-passwd'))}")
-            time.sleep(5)  # Wait for 5 seconds before retrying
+            logger.error(f"Attempting to connect to the database...")
+            time.sleep(2)
     return conn
 
 conn = get_db_connection()
@@ -67,6 +67,17 @@ def append_todo_item_to_db(new_todo):
     cur.execute("INSERT INTO todos(todo_item) VALUES (%s)", (new_todo,))
 
     conn.commit()
+
+###########
+@app.route('/healthz')
+def readiness_health_check():
+    try:
+        cur.execute("SELECT 1")
+        return ("db conn ok", 200)
+    except:
+        return ("db conn fail", 500)
+
+###########
 
 @app.route('/todos', methods=["GET", "POST"])
 def get_todos():
