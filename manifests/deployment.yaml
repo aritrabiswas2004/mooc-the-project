@@ -19,6 +19,18 @@ spec:
       containers:
         - name: todo-list-app
           image: PROJECT/IMAGE_DIR1
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 8080
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 8080
           resources:
             requests:
               cpu: "20m"
