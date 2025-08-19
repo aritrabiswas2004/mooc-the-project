@@ -20,7 +20,7 @@ spec:
         - name: todo-list-app
           image: PROJECT/IMAGE_DIR1
           readinessProbe:
-            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            initialDelaySeconds: 20 # Initial delay until the readiness is tested
             periodSeconds: 5 # How often to test
             httpGet:
                path: /healthz
