@@ -68,7 +68,6 @@ def append_todo_item_to_db(new_todo):
 
     conn.commit()
 
-###########
 @app.route('/healthz')
 def readiness_health_check():
     try:
@@ -76,8 +75,6 @@ def readiness_health_check():
         return ("db conn ok", 200)
     except:
         return ("db conn fail", 500)
-
-###########
 
 @app.route('/todos', methods=["GET", "POST"])
 def get_todos():
