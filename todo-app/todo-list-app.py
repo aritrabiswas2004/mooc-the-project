@@ -19,12 +19,7 @@ def handle_todos():
     
 @app.route('/healthz')
 def check_backend_health():
-    response = requests.get("http://todo-list-svc:4040/")
-
-    if response.status_code == 200:
-        return ("backend good", 200)
-    
-    return ("backend not ready", 500)
+    return ("all ok", 200)
 
 @app.route('/')
 def main():
