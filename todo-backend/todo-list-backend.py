@@ -25,7 +25,7 @@ def get_db_connection():
                 port=int(os.environ.get('DB-PORT')),
                 dbname=os.environ.get('DB-NAME'),
                 user=os.environ.get('DB-USER', "postgres"),
-                password=str(os.environ.get('DB-PASSWORD', 'postgres'))
+                password="wrongpassword" # str(os.environ.get('DB-PASSWORD', 'postgres'))
             )
             break
         except psycopg2.OperationalError as e:
