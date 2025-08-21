@@ -15,12 +15,25 @@
       <br><br>
     </form>
 
+    <h2>Todos</h2>
+
     <ul>
     {% for item in todos %}
     <div>
-        <li> {{item}} </li>
+        <li> {{item}} <button>Mark as Done</button></li>
     </div>
     {% endfor %}
     </ul>
+
+    <h2>Done</h2>
+
+    <ul>
+    {% for done_item in dones %}
+    <div>
+        <li> {{done_item}} </li>
+    </div>
+    {% endfor %}
+    </ul>
+
   </body>
 </html>

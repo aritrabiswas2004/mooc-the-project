@@ -42,7 +42,7 @@ if conn is None:
 cur = conn.cursor()
 
 def init_db():
-    cur.execute("CREATE TABLE IF NOT EXISTS todos (id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, todo_item TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS todos (id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, todo_item TEXT, done BOOLEAN DEFAULT FALSE)") ###
 
     # some base values that were already there
     cur.execute("INSERT INTO todos(todo_item) VALUES ('Bake a cake')")
@@ -58,7 +58,7 @@ init_db()
 
 def get_todos_list_from_db():
     logger.info("GET request sent to backend")
-    cur.execute("SELECT todo_item FROM todos")
+    cur.execute("SELECT todo_item FROM todos WHERE done = FALSE") ###
 
     return [item[0] for item in cur.fetchall()]
 
@@ -67,6 +67,13 @@ def append_todo_item_to_db(new_todo):
     cur.execute("INSERT INTO todos(todo_item) VALUES (%s)", (new_todo,))
 
     conn.commit()
+
+###
+def get_dones_from_db():
+    cur.execute("SELECT todo_item FROM todos WHERE done = TRUE")
+
+    return [item[0] for item in cur.fetchall()]
+###
 
 @app.route('/healthz')
 def readiness_health_check():
@@ -90,6 +97,20 @@ def get_todos():
         return "success"
 
     return get_todos_list_from_db()
+
+###
+@app.route('/todos/<int:id>', methods=['GET','PUT'])
+def get_update_dones(id=1):
+    if request.method == "PUT":
+        try:
+            cur.execute(f"UPDATE todos SET done = TRUE WHERE id = {id}")
+            return "success"
+        except Exception as e:
+            logger.error(f"ERROR: UPDATE DONES FAILED -> {e}")
+            return "failed"
+        
+    return get_dones_from_db()
+###
 
 @app.route('/')
 def health_check():
