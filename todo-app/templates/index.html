@@ -20,7 +20,7 @@
     <ul>
     {% for item in todos %}
     <div>
-        <li> {{item}} <button>Mark as Done</button></li>
+        <li> {{item[1]}} {{item[0]}}<button>Mark as Done</button></li> <!--There must be a PUT request to /todos/<id>-->
     </div>
     {% endfor %}
     </ul>

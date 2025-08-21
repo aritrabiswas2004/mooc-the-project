@@ -49,6 +49,9 @@ def init_db():
     cur.execute("INSERT INTO todos(todo_item) VALUES ('Learn basic networking')")
     cur.execute("INSERT INTO todos(todo_item) VALUES ('Learn containerization')")
 
+    # default done item just for checking
+    cur.execute("INSERT INTO todos(todo_item, done) VALUES ('Start this App', TRUE)")
+
     conn.commit()
 
     logger.info("DB connection established and initialised")
@@ -58,9 +61,9 @@ init_db()
 
 def get_todos_list_from_db():
     logger.info("GET request sent to backend")
-    cur.execute("SELECT todo_item FROM todos WHERE done = FALSE") ###
+    cur.execute("SELECT id, todo_item FROM todos WHERE done = FALSE") ###
 
-    return [item[0] for item in cur.fetchall()]
+    return cur.fetchall()
 
 def append_todo_item_to_db(new_todo):
     logger.info(f"Append request sent to backend: {new_todo}")
