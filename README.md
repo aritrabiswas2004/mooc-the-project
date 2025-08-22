@@ -12,6 +12,7 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 3.11
 - 3.12
 - 4.2
+- 4.5
 
 ## Screenshots for exercise `3.12`
 

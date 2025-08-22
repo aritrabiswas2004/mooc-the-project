@@ -17,7 +17,6 @@ def handle_todos():
     else:
         return "Something went wrong"
 
-### 
 @app.route('/todos/<int:id>', methods=['POST'])
 def handle_dones(id=1):
     response = requests.put(f"{os.environ.get('TODO-SVC-LINK')}/{id}", data=request.form)
@@ -25,7 +24,6 @@ def handle_dones(id=1):
         return redirect("/")
     else:
         return "Something went wrong"
-###
     
 @app.route('/healthz')
 def check_backend_health():
@@ -59,9 +57,9 @@ def main():
         start = last_refreshed
 
     response_todos = requests.get(os.environ.get('TODO-SVC-LINK')).json()
-    response_dones = requests.get(f"{os.environ.get('TODO-SVC-LINK')}/0").json() ###
+    response_dones = requests.get(f"{os.environ.get('TODO-SVC-LINK')}/0").json()
 
-    return render_template("index.html", todos=response_todos, dones=response_dones) ###
+    return render_template("index.html", todos=response_todos, dones=response_dones)
 
 if __name__ == '__main__':
     app.run("0.0.0.0", port=int(os.environ.get("APP-PORT", 8080))) # leaving 8080 just as backup just in case
