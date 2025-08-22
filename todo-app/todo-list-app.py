@@ -20,7 +20,7 @@ def handle_todos():
 ### 
 @app.route('/todos/<int:id>', methods=['PUT'])
 def handle_dones(id=1):
-    response = requests.put(f"{os.environ.get('TODO-SVC-LINK')}/todos/{id}", data=request.form)
+    response = requests.put(f"{os.environ.get('TODO-SVC-LINK')}/{id}", data=request.form)
     if response.status_code == 200:
         return redirect("/")
     else:
@@ -59,7 +59,7 @@ def main():
         start = last_refreshed
 
     response_todos = requests.get(os.environ.get('TODO-SVC-LINK')).json()
-    response_dones = requests.get(f"{os.environ.get('TODO-SVC-LINK')}/todos/0") ###
+    response_dones = requests.get(f"{os.environ.get('TODO-SVC-LINK')}/0") ###
 
     return render_template("index.html", todos=response_todos, dones=response_dones) ###
 
