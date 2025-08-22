@@ -59,7 +59,7 @@ def main():
         start = last_refreshed
 
     response_todos = requests.get(os.environ.get('TODO-SVC-LINK')).json()
-    response_dones = requests.get(f"{os.environ.get('TODO-SVC-LINK')}/0") ###
+    response_dones = requests.get(f"{os.environ.get('TODO-SVC-LINK')}/0").json() ###
 
     return render_template("index.html", todos=response_todos, dones=response_dones) ###
 
