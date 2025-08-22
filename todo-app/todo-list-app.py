@@ -18,7 +18,7 @@ def handle_todos():
         return "Something went wrong"
 
 ### 
-@app.route('/todos/<int:id>', methods=['PUT'])
+@app.route('/todos/<int:id>', methods=['POST'])
 def handle_dones(id=1):
     response = requests.put(f"{os.environ.get('TODO-SVC-LINK')}/{id}", data=request.form)
     if response.status_code == 200:

@@ -20,7 +20,7 @@
     <ul>
     {% for item in todos %}
     <div>
-        <form method="put" action="/todos/{{item[0]}}">
+        <form method="post" action="/todos/{{item[0]}}">
           <li> {{item[1]}} <button type="submit">Mark as Done</button></li>
         </form>
     </div>
