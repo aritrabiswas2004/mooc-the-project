@@ -47,6 +47,4 @@ Finally, a reference to this secret and secret key JSON file is given in the Cro
 
 > [!NOTE]
 > For exercise `3.7` onwards the tag name of `3.X` (`X` is any number) causes the pipeline to fail since it is not a valid namespace name. 
-> For all other branch names that are also valid namespace names, it works! 
-
-
+> For all other branch names that are also valid namespace names, it works!
