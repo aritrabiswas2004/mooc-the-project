@@ -2,7 +2,7 @@
 
 The Project (Todo List App) is done in this repo (and not the [main](https://github.com/aritrabiswas2004/devops-with-kubernetes) one) for the exercises below
 
-> The below list is extended when more exercises are completed
+> The below list is extended when more exercises of The Project are completed
 
 - 3.6
 - 3.7
@@ -13,6 +13,7 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 3.12
 - 4.2
 - 4.5
+- ~~4.6~~ (skipped)
 
 ## Screenshots for exercise `3.12`
 
