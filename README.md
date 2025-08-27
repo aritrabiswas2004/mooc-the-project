@@ -14,6 +14,17 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 4.2
 - 4.5
 - ~~4.6~~ (skipped)
+- 4.8
+
+## Screenshots
+
+### Lens
+
+![Lens Screenshot](./images/lens.png)
+
+### ArgoCD
+
+![ArgoCD](./images/argo.png)
 
 > [!NOTE]
 > For exercise `3.7` onwards the tag name of `3.X` (`X` is any number) causes the pipeline to fail since it is not a valid namespace name. 
