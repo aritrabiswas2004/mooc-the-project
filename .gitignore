@@ -1,7 +1,4 @@
 /venv/
 *.sh
-secret.yaml
 *.txt
 *.json
-manifests/argo-cm.yaml
-manifests/argo-repo-serv.yaml
