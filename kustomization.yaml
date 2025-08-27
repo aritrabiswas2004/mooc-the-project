@@ -13,7 +13,7 @@ resources:
 images:
 - name: PROJECT/IMAGE_DIR1
   newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app
-  newTag: main-46a3d833bc79d69d878b1e85080b5accac6b15dc
+  newTag: main-a5a0660b094a7194e223d6cf77396ec5eb61d0f4
 - name: PROJECT/IMAGE_DIR2
   newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend
-  newTag: main-46a3d833bc79d69d878b1e85080b5accac6b15dc
+  newTag: main-a5a0660b094a7194e223d6cf77396ec5eb61d0f4
