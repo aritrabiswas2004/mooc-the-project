@@ -6,7 +6,7 @@ namePrefix: staging-
 images:
 - name: PROJECT/IMAGE_DIR1
   newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app
-  newTag: main-6f6f6fb3a10e9c45b9eac8a3dffdc08bcddb853b
+  newTag: main-791c5f34a7883fcbe75be569315ba714cb8d60a6
 - name: PROJECT/IMAGE_DIR2
   newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend
-  newTag: main-6f6f6fb3a10e9c45b9eac8a3dffdc08bcddb853b
+  newTag: main-791c5f34a7883fcbe75be569315ba714cb8d60a6
