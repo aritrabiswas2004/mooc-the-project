@@ -15,16 +15,26 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 - 4.5
 - ~~4.6~~ (skipped)
 - 4.8
+- 4.9
 
-## Screenshots
+## Notes on exercise `4.9`
 
-### Lens
+To deploy the project with ArgoCD, run
 
-![Lens Screenshot](./images/lens.png)
+```shell
+kubectl apply -n argocd -f application.yaml
+```
 
-### ArgoCD
+By default, the manifest points to the staging overlay.
+To deploy to production, update `application.yaml` as below
 
-![ArgoCD](./images/argo.png)
+```yaml
+source:
+  repoURL: https://github.com/aritrabiswas2004/mooc-the-project
+  path: overlays/prod   # change from overlays/staging
+  targetRevision: HEAD
 
-> [!NOTE]
-> For exercise `3.7` onwards the tag name of `3.X` (`X` is any number) causes the pipeline to fail since it is not a valid namespace name. 
+destination:
+  server: https://kubernetes.default.svc
+  namespace: production # change from staging if desired
+```
