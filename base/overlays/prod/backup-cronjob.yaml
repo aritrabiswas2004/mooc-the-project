@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-backup-cj
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: gcp-key
+            secret:
+              secretName: gcp-key
+          containers:
+          - name: backup-cron
+            image: postgres:17
+            imagePullPolicy: IfNotPresent
+            env:
+              - name: PGPASSWORD
+                value: postgres # this is just the default user and password
+            command: ["bash", "-c"]
+            args:
+              - |
+                apt-get update && apt-get install -y curl gnupg
+                echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" \
+                  | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+                curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+                  | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+                apt-get update && apt-get install -y google-cloud-sdk
+                gcloud auth activate-service-account --key-file=/var/secrets/pgkey.json
+                TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
+                pg_dump -h postgres-svc -U postgres -d todosdb > backup-$TIMESTAMP.sql
+                gsutil cp backup-$TIMESTAMP.sql gs://aritrabb-project-bucket/
+            volumeMounts:
+            - name: gcp-key
+              mountPath: /var/secrets
+              readOnly: true
+          restartPolicy: Never
+

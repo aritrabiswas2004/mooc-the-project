@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-list-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-list
+  template:
+    metadata:
+      labels:
+        app: todo-list
+    spec:
+      volumes:
+        - name: image-elapsed
+          persistentVolumeClaim:
+            claimName: todo-list-claim
+      containers:
+        - name: todo-list-app
+          image: PROJECT/IMAGE_DIR1
+          readinessProbe:
+            initialDelaySeconds: 20 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 8080
+          livenessProbe:
+            initialDelaySeconds: 25 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 8080
+          resources:
+            requests:
+              cpu: "20m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          volumeMounts:
+            - name: image-elapsed
+              mountPath: /app/static
+          env:
+            - name: APP-PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: app_port
+            - name: TODO-SVC-LINK
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: todo_svc_link
+            - name: RANDOM-PIC-URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: random_pic_url
+        - name: todo-backend
+          image: PROJECT/IMAGE_DIR2
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 4040
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 4040
+          resources:
+            requests:
+              cpu: "20m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          env:
+            - name: BACKEND-PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: backend_port
+            - name: DB-USER
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: db_user
+            - name: DB-NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: db_name
+            - name: DB-PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: db_port
+            - name: DB-SVC-NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-list-configmap
+                  key: db_svc_name
+            - name: DB-PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password-secret
+                  key: db_password

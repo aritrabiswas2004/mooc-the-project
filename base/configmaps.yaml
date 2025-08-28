@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-list-configmap
+data:
+  app_port: "8080"
+  backend_port: "4040"
+  todo_svc_link: "http://todo-list-svc:4040/todos"
+  random_pic_url: "https://picsum.photos/1200"
+  db_name: "todosdb"
+  db_port: "5432"
+  db_user: "postgres"
+  db_svc_name: "postgres-svc"

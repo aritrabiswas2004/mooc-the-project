@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: the-project
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aritrabiswas2004/mooc-the-project
+    path: overlays/staging
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
