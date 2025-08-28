@@ -94,11 +94,11 @@ jobs:
 
           if [[ ${{ github.ref }} == refs/heads/main ]]; then
             kubectl get namespace staging >/dev/null 2>&1 || kubectl create namespace staging
-            PATH_TO_KYAML="base/staging/kustomization.yaml"
+            echo "PATH_TO_KYAML=base/staging/kustomization.yaml" >> $GITHUB_ENV
           else
             if [[ ${{ github.ref }} == refs/tags* ]]; then
               kubectl get namespace production >/dev/null 2>&1 || kubectl create namespace production
-              PATH_TO_KYAML="base/prod/kustomization.yaml"
+              echo "PATH_TO_KYAML=base/prod/kustomization.yaml" >> $GITHUB_ENV
             else
               echo "Something went wrong with branch vs tag"
               exit 1
@@ -114,5 +114,5 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: $PATH_TO_KYAML
+          add: ${{ env.PATH_TO_KYAML }}
           message: New version released ${{ github.sha }}
