@@ -9,3 +9,10 @@ resources:
 - service.yaml
 - ingress.yaml
 - cronjob.yaml
+images:
+- name: PROJECT/IMAGE_DIR1
+  newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app
+  newTag: main-d3b16d63bcc813893cd14a35ab4be504e7a5171a
+- name: PROJECT/IMAGE_DIR2
+  newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend
+  newTag: main-d3b16d63bcc813893cd14a35ab4be504e7a5171a
