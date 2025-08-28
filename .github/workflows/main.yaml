@@ -87,7 +87,25 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
-      - name: Set correct image names
+      - name: Account for namespace and Kustomization path
+        run: |
+          echo ${{ github.event_name }}
+          echo ${{ github.ref }}
+
+          if [[ ${{ github.ref }} == refs/heads/main ]]; then
+            kubectl get namespace staging >/dev/null 2>&1 || kubectl create namespace staging
+            PATH_TO_KYAML="base/staging/kustomization.yaml"
+          else
+            if [[ ${{ github.ref }} == refs/tags* ]]; then
+              kubectl get namespace production >/dev/null 2>&1 || kubectl create namespace production
+              PATH_TO_KYAML="base/prod/kustomization.yaml"
+            else
+              echo "Something went wrong with branch vs tag"
+              exit 1
+            fi
+          fi
+
+      - name: Set correct image names to correct dir
         run: |-
           cd base/
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
@@ -96,5 +114,5 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: 'base/kustomization.yaml'
+          add: '$PATH_TO_KYAML'
           message: New version released ${{ github.sha }}
