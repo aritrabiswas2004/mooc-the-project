@@ -3,3 +3,10 @@ kind: Kustomization
 resources:
 - ../../base
 - backup-cronjob.yaml
+images:
+- name: PROJECT/IMAGE_DIR1
+  newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-app
+  newTag: test-392cf318540ad77690925ad91e9f342cfd44162d
+- name: PROJECT/IMAGE_DIR2
+  newName: europe-north1-docker.pkg.dev/dwk-gke-467121/my-repository/todo-backend
+  newTag: test-392cf318540ad77690925ad91e9f342cfd44162d
