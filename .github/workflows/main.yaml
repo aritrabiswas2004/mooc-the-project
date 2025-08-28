@@ -94,11 +94,11 @@ jobs:
 
           if [[ ${{ github.ref }} == refs/heads/main ]]; then
             kubectl get namespace staging >/dev/null 2>&1 || kubectl create namespace staging
-            echo "PATH_TO_KYAML=base/overlays/staging/kustomization.yaml" >> $GITHUB_ENV
+            echo "PATH_TO_KYAML=overlays/staging/kustomization.yaml" >> $GITHUB_ENV
           else
             if [[ ${{ github.ref }} == refs/tags* ]]; then
               kubectl get namespace production >/dev/null 2>&1 || kubectl create namespace production
-              echo "PATH_TO_KYAML=base/overlays/prod/kustomization.yaml" >> $GITHUB_ENV
+              echo "PATH_TO_KYAML=overlays/prod/kustomization.yaml" >> $GITHUB_ENV
             else
               echo "Something went wrong with branch vs tag"
               exit 1
@@ -110,10 +110,10 @@ jobs:
           pwd
 
           if [[ ${{ github.ref }} == refs/heads/main ]]; then
-            cd base/overlays/staging/
+            cd overlays/staging/
           else
             if [[ ${{ github.ref }} == refs/tags* ]]; then
-              cd base/overlays/staging/
+              cd overlays/prod/
             else
               echo "Something went wrong with branch vs tag"
               exit 1
