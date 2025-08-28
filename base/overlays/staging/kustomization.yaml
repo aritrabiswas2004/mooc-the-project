@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: staging
 resources:
-- ./../../../base
+- ./../../../base # right path?
 namePrefix: staging-
 images:
 - name: PROJECT/IMAGE_DIR1
