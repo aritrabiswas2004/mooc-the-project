@@ -7,11 +7,11 @@ spec:
   project: default
   source:
     repoURL: https://github.com/aritrabiswas2004/mooc-the-project
-    path: overlays/staging
+    path: overlays/prod
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
-    namespace: staging
+    namespace: production
   syncPolicy:
     automated:
       prune: true

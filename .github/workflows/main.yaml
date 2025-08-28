@@ -107,8 +107,6 @@ jobs:
 
       - name: Set correct image names to correct dir
         run: |-
-          pwd
-
           if [[ ${{ github.ref }} == refs/heads/main ]]; then
             cd overlays/staging/
           else
@@ -122,6 +120,11 @@ jobs:
 
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
           kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
+
+      - name: Switch to main branch for sake of Kustomize commit
+        run: |
+          git fetch origin main
+          git checkout main
           
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
