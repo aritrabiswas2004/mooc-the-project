@@ -107,7 +107,19 @@ jobs:
 
       - name: Set correct image names to correct dir
         run: |-
-          cd base/
+          pwd
+
+          if [[ ${{ github.ref }} == refs/heads/main ]]; then
+            cd base/overlays/staging/
+          else
+            if [[ ${{ github.ref }} == refs/tags* ]]; then
+              cd base/overlays/staging/
+            else
+              echo "Something went wrong with branch vs tag"
+              exit 1
+            fi
+          fi
+
           kustomize edit set image PROJECT/IMAGE_DIR1=$IMAGE_TAG_DIR1
           kustomize edit set image PROJECT/IMAGE_DIR2=$IMAGE_TAG_DIR2
           
