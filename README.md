@@ -21,6 +21,8 @@ The Project (Todo List App) is done in this repo (and not the [main](https://git
 
 To deploy the project with ArgoCD, run
 
+<!--comment-->
+
 ```shell
 kubectl apply -n argocd -f application.yaml
 ```
