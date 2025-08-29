@@ -105,13 +105,20 @@ jobs:
             fi
           fi
 
+      - name: Checkout config repo
+        uses: actions/checkout@v4
+        with:
+          repository: aritrabiswas2004/the-project-configs
+          token: ${{ secrets.PAT_CONFIG_REPO }}
+          path: the-project-configs
+
       - name: Set correct image names to correct dir
         run: |-
           if [[ ${{ github.ref }} == refs/heads/main ]]; then
-            cd overlays/staging/
+            cd the-project-configs/overlays/staging/
           else
             if [[ ${{ github.ref }} == refs/tags* ]]; then
-              cd overlays/prod/
+              cd the-project-configs/overlays/prod/
             else
               echo "Something went wrong with branch vs tag"
               exit 1
@@ -126,8 +133,10 @@ jobs:
           git fetch origin main
           git checkout main
           
-      - name: commit kustomization.yaml to GitHub
+      - name: Commit and push to config repo
         uses: EndBug/add-and-commit@v9
         with:
-          add: ${{ env.PATH_TO_KYAML }}
-          message: New version released ${{ github.sha }}
+          cwd: the-project-configs
+          add: '.'
+          message: "Update images to ${{ github.sha }}"
+          push: true
